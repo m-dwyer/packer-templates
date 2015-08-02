@@ -1,0 +1,58 @@
+{
+	"variables": {
+		"ssh_user": "vagrant",
+		"ssh_pass": "vagrant",
+		"name": "debian810"
+	},
+
+	"builders": [{
+		"type": "virtualbox-iso",
+		"guest_os_type": "Debian_64",
+		"guest_additions_mode": "upload",
+		"headless": "false",
+
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "512"],
+			["modifyvm", "{{.Name}}", "--cpus", "1"]
+		],
+
+		"disk_size": "5120",
+
+		"output_directory": "builds",
+
+		"iso_url": "http://mirror.internode.on.net/pub/debian-cd/current/amd64/iso-cd/debian-8.1.0-amd64-netinst.iso",
+		"iso_checksum": "b17191f9d1b0092c2b488eb0d65fe9c77df1a207",
+		"iso_checksum_type": "sha1",
+
+		"http_directory": "http",
+
+		"ssh_username": "{{user `ssh_user`}}",
+		"ssh_password": "{{user `ssh_pass`}}",
+		"ssh_wait_timeout": "20m",
+		
+		"shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+
+		"boot_wait": "10s",
+		"boot_command": [
+			"<esc><wait>",
+			"auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/debian/preseed.cfg ",
+			"hostname={{user `name`}}",
+			"<enter>"	
+		]
+	}],
+
+	"post-processors": [{
+		"type": "vagrant",
+		"output": "boxes/{{user `name`}}.box"
+	}],
+
+	"provisioners": [{
+		"type": "shell",
+		"execute_command": "echo {{user `ssh_user`}} | sudo -E -S bash '{{.Path}}'",
+		"scripts": [
+			"scripts/common/vagrantkey.sh",
+			"scripts/debian/vmtools.sh",
+			"scripts/debian/cleanup.sh"
+		]
+	}]
+}

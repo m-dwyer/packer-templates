@@ -1,0 +1,61 @@
+{
+	"variables": {
+		"ssh_user": "vagrant",
+		"ssh_pass": "vagrant",
+		"name": "ubuntu1504"
+	},
+
+	"builders": [{
+		"type": "virtualbox-iso",
+		"guest_os_type": "Ubuntu_64",
+		"guest_additions_mode": "upload",
+		"headless": "false",
+
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "512"],
+			["modifyvm", "{{.Name}}", "--cpus", "1"]
+		],
+
+		"disk_size": "5120",
+
+		"output_directory": "builds",
+
+		"iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/15.04/ubuntu-15.04-server-amd64.iso",
+		"iso_checksum": "d10248965c2c749df6bcce9f2f90f16a2e75e843",
+		"iso_checksum_type": "sha1",
+
+		"http_directory": "http",
+
+		"ssh_username": "{{user `ssh_user`}}",
+		"ssh_password": "{{user `ssh_pass`}}",
+		"ssh_wait_timeout": "20m",
+		
+		"shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+
+		"boot_wait": "10s",
+		"boot_command": [
+			"<esc><esc><enter><wait>",
+			"/install/vmlinuz ",
+			"preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg ",
+			"auto-install/enable=true ",
+			"hostname={{user `name` }} ",
+			"debconf/priority=critical ",
+			"initrd=/install/initrd.gz -- <enter>"
+		]
+	}],
+
+	"post-processors": [{
+		"type": "vagrant",
+		"output": "boxes/{{user `name`}}.box"
+	}],
+
+	"provisioners": [{
+		"type": "shell",
+		"execute_command": "echo {{user `ssh_user`}} | sudo -E -S bash '{{.Path}}'",
+		"scripts": [
+			"scripts/common/vagrantkey.sh",
+			"scripts/ubuntu/vmtools.sh",
+			"scripts/ubuntu/cleanup.sh"
+		]
+	}]
+}
