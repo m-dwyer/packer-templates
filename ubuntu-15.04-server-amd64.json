@@ -24,7 +24,7 @@
 		"iso_checksum": "d10248965c2c749df6bcce9f2f90f16a2e75e843",
 		"iso_checksum_type": "sha1",
 
-		"http_directory": "http",
+		"http_directory": "installconfig",
 
 		"ssh_username": "{{user `ssh_user`}}",
 		"ssh_password": "{{user `ssh_pass`}}",
