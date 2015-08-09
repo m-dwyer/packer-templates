@@ -1,5 +1,5 @@
 *~
 *.swp
 packer_cache/
-boxes
-
+boxes/
+builds/
