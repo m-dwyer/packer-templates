@@ -27,7 +27,7 @@
 
 		"winrm_username": "{{user `winrm_user`}}",
 		"winrm_password": "{{user `winrm_pass`}}",
-		"winrm_timeout": "999m",
+		"winrm_timeout": "30m",
 		
 		"shutdown_command": "shutdown /s /f /t 10",
 
