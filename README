@@ -1,15 +1,13 @@
-# packer-templates
-
-## Intro
+Intro:
 
 Some basic Packer templates for generating Vagrant boxes.
 
-## Requirements
+Requirements:
 
 Packer (>= 0.8 to use WinRM communicator with Windows templates)
 Vagrant
 
-## Usage
+Usage:
 
 git clone https://github.com/m-dwyer/packer-templates.git
 cd packer-templates/
