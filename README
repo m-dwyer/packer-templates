@@ -6,6 +6,7 @@ Requirements:
 
 Packer (>= 0.8 to use WinRM communicator with Windows templates)
 Vagrant
+winrm-fs plugin for provisioning via WinRM (vagrant plugin install winrm-fs)
 
 Templates:
 
