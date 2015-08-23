@@ -1,0 +1,55 @@
+{
+	"variables": {
+		"winrm_user": "vagrant",
+		"winrm_pass": "vagrant",
+		"name": "server2012r2-full"
+	},
+
+	"builders": [{
+		"type": "virtualbox-iso",
+		"guest_os_type": "Windows2012_64",
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"communicator": "winrm",
+
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "4096"],
+			["modifyvm", "{{.Name}}", "--cpus", "1"]
+		],
+
+		"disk_size": "15360",
+
+		"output_directory": "builds",
+
+		"iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
+		"iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
+		"iso_checksum_type": "sha1",
+
+		"winrm_username": "{{user `winrm_user`}}",
+		"winrm_password": "{{user `winrm_pass`}}",
+		"winrm_timeout": "30m",
+		
+		"shutdown_command": "shutdown /s /f /t 10",
+
+		"boot_wait": "10s",
+
+		"floppy_files": [
+			"installconfig/server2012r2/Autounattend.xml",
+			"installconfig/windows/enablewinrm.ps1"
+		]
+	}],
+
+	"post-processors": [{
+		"type": "vagrant",
+		"output": "boxes/{{user `name`}}.box",
+		"vagrantfile_template": "vagrantfiles/server2012r2-full.rb"
+	}],
+
+	"provisioners": [{
+		"type": "powershell",
+		"scripts": [
+			"scripts/windows/vmtools.ps1",
+			"scripts/windows/enablerdp.ps1"
+		]
+	}]
+}
