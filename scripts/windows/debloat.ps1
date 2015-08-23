@@ -34,46 +34,6 @@ Remove-Item -Recurse -Force -Confirm:$false "Registry:HKEY_CLASSES_ROOT\Wow6432N
 Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Recurse -Force
 Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Recurse -Force
 
-# Remove apps
-Write-Host "Removing apps..."
-$apps = @(
-    "Microsoft.3DBuilder"
-    "Microsoft.Appconnector"
-    "Microsoft.BingFinance"
-    "Microsoft.BingNews"
-    "Microsoft.BingSports"
-    "Microsoft.BingWeather"
-    "Microsoft.BioEnrollment"
-    "Microsoft.Getstarted"
-    "Microsoft.MicrosoftOfficeHub"
-    "Microsoft.MicrosoftSolitaireCollection"
-    "Microsoft.Office.OneNote"
-    "Microsoft.People"
-    "Microsoft.SkypeApp"
-    "Microsoft.Windows.Photos"
-    "Microsoft.WindowsAlarms"
-    "Microsoft.WindowsCalculator"
-    "Microsoft.WindowsCamera"
-    "microsoft.windowscommunicationsapps"
-    "Microsoft.WindowsFeedback"
-    "Microsoft.WindowsMaps"
-    "Microsoft.WindowsPhone"
-    "Microsoft.WindowsSoundRecorder"
-    "Microsoft.WindowsStore"
-    "Microsoft.XboxApp"
-    "Microsoft.XboxGameCallableUI"
-    "Microsoft.XboxIdentityProvider"
-    "Microsoft.ZuneMusic"
-    "Microsoft.ZuneVideo"
-)
-
-foreach ($app in $apps) {
-    Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage
-    Get-AppXProvisionedPackage -Online |
-        Where DisplayName -eq $app |
-        Remove-AppxProvisionedPackage -Online
-}
-
 # Disable features
 Write-Host "Disabling features..."
 $features = @(
@@ -89,3 +49,84 @@ $features = @(
 )
 
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName $features
+
+$packageNames = @(
+    "BioEnrollment"
+    "Biometrics"
+    "ContactSupport"
+    "DiagTrack"
+    "Feedback"
+    "Flash"
+    "Hyper-V"
+    "Gaming"
+    "OneDrive"
+    "Windows-Defender"
+    "Xbox"
+)
+
+$appXPackageNames = @(
+    "Microsoft.3DBuilder"
+    "Microsoft.Appconnector"
+    "Microsoft.BingFinance"
+    "Microsoft.BingNews"
+    "Microsoft.BingSports"
+    "Microsoft.BingWeather"
+    "Microsoft.Getstarted"
+    "Microsoft.MicrosoftOfficeHub"
+    "Microsoft.MicrosoftSolitaireCollection"
+    "Microsoft.Office.OneNote"
+    "Microsoft.People"
+    "Microsoft.SkypeApp"
+    "Microsoft.Windows.Photos"
+    "Microsoft.WindowsAlarms"
+    "Microsoft.WindowsCalculator"
+    "Microsoft.WindowsCamera"
+    "microsoft.windowscommunicationsapps"
+    "Microsoft.WindowsMaps"
+    "Microsoft.WindowsPhone"
+    "Microsoft.WindowsSoundRecorder"
+    "Microsoft.WindowsStore"
+    "Microsoft.XboxApp"
+    "Microsoft.XboxIdentityProvider"
+    "Microsoft.ZuneMusic"
+    "Microsoft.ZuneVideo"
+)
+
+$username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+
+$hiveStr = "HKLM"
+$keyStr = "SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages"
+
+$key = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($keyStr,[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::ChangePermissions)
+$acl = $key.GetAccessControl()
+$rule = New-Object System.Security.AccessControl.RegistryAccessRule("$username", "FullControl", "ContainerInherit", "None", "Allow")
+$acl.SetAccessRuleProtection($false, $false)
+$acl.AddAccessRule($rule)
+$key.SetAccessControl($acl)
+
+# Remove all the things
+foreach ($packageName in $packageNames)
+{
+    $packageKeys = (Get-ChildItem "$hiveStr`:\$keyStr" |
+                Where Name -Like "*$packageName*")
+
+    foreach ($packageKey in $packageKeys)
+    {
+        Set-ItemProperty -Path $packageKey.PSPath -Name Visibility -Value 1 -ErrorAction SilentlyContinue | Out-Null
+        New-ItemProperty -Path $packageKey.PSPath -Name DefVis -PropertyType Dword -Value 2 -ErrorAction SilentlyContinue | Out-Null
+        Remove-Item -Path "$($packageKey.PSPath)\Owners" | Out-Null
+
+        Write-Host "Attempting to remove $($packageKey.PSChildName)..."
+        &dism.exe /Online /Remove-Package /PackageName:$($packageKey.PSChildName) /NoRestart /Quiet
+    }
+}
+
+foreach ($appXPackageName in $appXPackageNames) {
+    $appXPackage = Get-AppXProvisionedPackage -Online | Where DisplayName -like "*$appXPackageName*"
+
+    Write-Host "Attempting to remove $($appXPackage.DisplayName)..."
+    $appXPackage | Remove-AppxProvisionedPackage -Online
+    Get-AppxPackage | Where Name -Like "*$appXPackageName*" | Remove-AppxPackage
+}
+
+$LASTEXITCODE = 0

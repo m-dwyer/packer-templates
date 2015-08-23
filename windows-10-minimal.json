@@ -49,8 +49,18 @@
 		"type": "powershell",
 		"scripts": [
 			"scripts/windows/vmtools.ps1",
-			"scripts/windows/enablerdp.ps1",
+			"scripts/windows/enablerdp.ps1"
+		]
+	},
+	{
+		"type": "powershell",
+		"execute_command": "powershell \"& { {{.Vars}}{{.Path}} }\"",
+		"scripts": [
 			"scripts/windows/debloat.ps1"
 		]
-	}]
+	},
+	{
+		"type": "windows-restart"
+	}
+	]
 }
