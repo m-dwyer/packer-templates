@@ -2,7 +2,7 @@
 	"variables": {
 		"winrm_user": "vagrant",
 		"winrm_pass": "vagrant",
-		"name": "server-2012r2-full"
+		"name": "server-2012r2-core"
 	},
 
 	"builders": [{
@@ -43,7 +43,6 @@
 		"type": "vagrant",
 		"output": "boxes/{{user `name`}}.box",
 		"vagrantfile_template": "vagrantfiles/{{user `name`}}.rb"
-
 	}],
 
 	"provisioners": [{

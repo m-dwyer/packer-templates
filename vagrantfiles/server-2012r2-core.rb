@@ -1,6 +1,6 @@
 Vagrant.configure(2) do |config|
-	config.vm.define "server2012r2-full"
-	config.vm.box = "server2012r2-full"
+	config.vm.define "server-2012r2-core"
+	config.vm.box = "server-2012r2-core"
 	config.vm.guest = :windows
 	config.vm.communicator = :winrm
 	config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp"
