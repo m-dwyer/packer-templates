@@ -50,7 +50,8 @@
 		"type": "powershell",
 		"scripts": [
 			"scripts/windows/vmtools.ps1",
-			"scripts/windows/enablerdp.ps1"
+			"scripts/windows/enablerdp.ps1",
+			"scripts/windows/waitngen.ps1"
 		]
 	}]
 }
