@@ -17,6 +17,7 @@ windows-10-base.json - Base install of Windows 10 Enterprise Evaluation
 windows-10-minimal.json - Minimal install of Windows 10 Enterprise Evaluation
 (some packages removed)
 server-2012r2-full.json - Server 2012 R2 Datacenter Full (with a GUI)
+server-2012r2-core.json - Server 2012 R2 Datacenter Core
 
 Usage:
 
