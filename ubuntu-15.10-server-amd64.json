@@ -20,7 +20,7 @@
 
 		"output_directory": "builds",
 
-		"iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/15.04/ubuntu-15.04-server-amd64.iso",
+		"iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/15.10/ubuntu-15.10-server-amd64.iso",
 		"iso_checksum": "d10248965c2c749df6bcce9f2f90f16a2e75e843",
 		"iso_checksum_type": "sha1",
 
