@@ -1,8 +1,8 @@
-{
+{ 
 	"variables": {
 		"ssh_user": "vagrant",
 		"ssh_pass": "vagrant",
-		"name": "ubuntu1504"
+		"name": "ubuntu1510"
 	},
 
 	"builders": [{
@@ -21,7 +21,7 @@
 		"output_directory": "builds",
 
 		"iso_url": "http://mirror.internode.on.net/pub/ubuntu/releases/15.10/ubuntu-15.10-server-amd64.iso",
-		"iso_checksum": "d10248965c2c749df6bcce9f2f90f16a2e75e843",
+		"iso_checksum": "478446f33e336a98d5868c0b353d0d347e8a7262",
 		"iso_checksum_type": "sha1",
 
 		"http_directory": "installconfig",
