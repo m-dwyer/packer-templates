@@ -20,8 +20,8 @@
 
 		"output_directory": "builds",
 
-		"iso_url": "http://mirror.internode.on.net/pub/centos/7.1.1503/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
-		"iso_checksum": "7c1e34e95c991175290d704dbdcc6531774cbecb",
+		"iso_url": "http://mirror.internode.on.net/pub/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+		"iso_checksum": "783eef50e1fb91c78901d0421d8114a29b998478",
 		"iso_checksum_type": "sha1",
 
 		"http_directory": "installconfig",
