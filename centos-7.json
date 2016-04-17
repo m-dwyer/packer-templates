@@ -51,6 +51,7 @@
 		"scripts": [
 			"scripts/common/vagrantkey.sh",
 			"scripts/centos/vmtools.sh",
+			"scripts/centos/puppet.sh",
 			"scripts/centos/cleanup.sh"
 		]
 	}]

@@ -58,6 +58,7 @@
 		"scripts": [
 			"scripts/common/vagrantkey.sh",
 			"scripts/ubuntu/vmtools.sh",
+			"scripts/ubuntu/puppet.sh",
 			"scripts/ubuntu/cleanup.sh"
 		]
 	}]
