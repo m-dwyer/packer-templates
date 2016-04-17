@@ -10,8 +10,8 @@ winrm-fs plugin for provisioning via WinRM (vagrant plugin install winrm-fs)
 
 Templates:
 
-centos-7.json - Base install of CentOS 7.1.1503 x86_64
-debian-8.1.0-amd64.json - Base install of Debian 8.1.0 amd64
+centos-7.json - Base install of CentOS 7.1.1511 x86_64
+debian-8.4.0-amd64.json - Base install of Debian 8.4.0 amd64
 ubuntu-15.10-server-amd64.json - Base install of Ubuntu Server 15.10 amd64
 windows-10-base.json - Base install of Windows 10 Enterprise Evaluation
 windows-10-minimal.json - Minimal install of Windows 10 Enterprise Evaluation
@@ -24,7 +24,7 @@ Usage:
 git clone https://github.com/m-dwyer/packer-templates.git
 cd packer-templates/
 packer build $OS_NAME.json
-vagrant box add boxes/$OS_NAME.box --name=$OS_NAME
+vagrant box add $OS_NAME boxes/$OS_NAME.box
 
 vagrant init $OS_NAME
 vagrant up
