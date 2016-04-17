@@ -2,7 +2,7 @@
 	"variables": {
 		"ssh_user": "vagrant",
 		"ssh_pass": "vagrant",
-		"name": "debian810"
+		"name": "debian840"
 	},
 
 	"builders": [{
@@ -20,8 +20,8 @@
 
 		"output_directory": "builds",
 
-		"iso_url": "http://mirror.internode.on.net/pub/debian-cd/current/amd64/iso-cd/debian-8.1.0-amd64-netinst.iso",
-		"iso_checksum": "b17191f9d1b0092c2b488eb0d65fe9c77df1a207",
+		"iso_url": "http://mirror.internode.on.net/pub/debian-cd/current/amd64/iso-cd/debian-8.4.0-amd64-netinst.iso",
+		"iso_checksum": "92cb8946618e3ed776827e7fcb56e452d993dbf8",
 		"iso_checksum_type": "sha1",
 
 		"http_directory": "installconfig",
@@ -52,6 +52,7 @@
 		"scripts": [
 			"scripts/common/vagrantkey.sh",
 			"scripts/debian/vmtools.sh",
+			"scripts/debian/puppet.sh",
 			"scripts/debian/cleanup.sh"
 		]
 	}]
