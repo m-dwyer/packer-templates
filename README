@@ -12,7 +12,7 @@ Templates:
 
 centos-7.json - Base install of CentOS 7.1.1511 x86_64
 debian-8.4.0-amd64.json - Base install of Debian 8.4.0 amd64
-ubuntu-15.10-server-amd64.json - Base install of Ubuntu Server 15.10 amd64
+ubuntu-16.04-server-amd64.json - Base install of Ubuntu Server 16.04 LTS amd64
 windows-10-base.json - Base install of Windows 10 Enterprise Evaluation
 windows-10-minimal.json - Minimal install of Windows 10 Enterprise Evaluation
 (some packages removed)
