@@ -2,7 +2,7 @@
 	"variables": {
 		"ssh_user": "vagrant",
 		"ssh_pass": "vagrant",
-		"name": "debian840"
+		"name": "debian850"
 	},
 
 	"builders": [{
@@ -20,8 +20,8 @@
 
 		"output_directory": "builds",
 
-		"iso_url": "http://mirror.internode.on.net/pub/debian-cd/current/amd64/iso-cd/debian-8.4.0-amd64-netinst.iso",
-		"iso_checksum": "92cb8946618e3ed776827e7fcb56e452d993dbf8",
+		"iso_url": "http://mirror.internode.on.net/pub/debian-cd/current/amd64/iso-cd/debian-8.5.0-amd64-netinst.iso",
+		"iso_checksum": "28a28ea5a5d49af9fb795971782944795c7f15db",
 		"iso_checksum_type": "sha1",
 
 		"http_directory": "installconfig",
